@@ -28,21 +28,8 @@
 			width:100%;
 			font-family:sans-serif;
 		}
-		.table{
-			align:"center"
-		}
-		
-		.flex-parent {
-		  display: flex;
-		}
-		.flex-child {
-		  flex: 1;
-		}
 		.headerButtons{
 			display: inline-block;
-			padding-top:25px;
-		}
-		.parent flex-parent{
 			padding-top:25px;
 		}
 		.grid-parent {
@@ -52,10 +39,11 @@
 		.mainTable{
 			display: flex;
 			flex-direction: column;
+			margin-right : 1000px;
 		}
 		.wrapper{
-			width:1500px;
-			height:500px;
+			width:1300px;
+			height:600px;
 		}
 		html, body{
 			display:grid;
@@ -64,12 +52,11 @@
 		}
 		.TopHeader{
 			background:#37508a;
-			width:1000px;
-			padding-left:0px;
-			margin-left:15px;
+			width:1060px;
+			margin-left:70px;
 		}
 		.Table{
-			width:1000px;
+			width:1200px;
 		}
 		.pagination{
 			margin-left:5px;
@@ -110,6 +97,7 @@
 									<td scope="col" style = "font-weight:bold">Address</td>
 									<td scope="col" style = "font-weight:bold">Phone</td>
 									<td scope="col" style = "font-weight:bold">Actions</td>
+									<td scope="col" style = "font-weight:bold">Add Relatives</td>
 								</tr>
 							</thead>
 							<c:forEach var="employee" items="${employees}">
@@ -123,6 +111,10 @@
 									</a>
 									<a href="DeleteEmployee?id=${employee.id}">
 									<img src="https://img.icons8.com/plasticine/100/000000/filled-trash.png" style= "width:20px; height:20px;"/>
+									</a>
+								</td>
+								<td><a href="AddRelatives?id=${employee.id}">
+									<img src="https://img.icons8.com/fluency/48/000000/family.png" style= "width:20px; height:20px;"/>
 									</a>
 								</td>
 								</tr>
@@ -154,6 +146,7 @@
 						</nav>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>

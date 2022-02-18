@@ -1,42 +1,39 @@
 package com.SimformSolutions.mainProject.model;
 
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Employee {
+public class RelativeOfEmployee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String email;
-	private String address;
+	private String relation;
 	private Long phone;
+	private String email;
 	
-	@OneToMany(mappedBy = "employee")
-	private Set<RelativeOfEmployee> relatives;
+	@ManyToOne
+	private Employee employee;
 	
-	
-	public Set<RelativeOfEmployee> getRelatives() {
-		return relatives;
+	public Employee getEmployee() {
+		return employee;
 	}
-	public void setRelatives(Set<RelativeOfEmployee> relatives) {
-		this.relatives = relatives;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
-	public Long getPhone() {
-		return phone;
-	}
-	public void setPhone(Long phone) {
-		this.phone = phone;
+	@Override
+	public String toString() {
+		return "RelativeOfEmployee [id=" + id + ", name=" + name + ", relation=" + relation + ", phone=" + phone
+				+ ", email=" + email + "]";
 	}
 	public int getId() {
 		return id;
@@ -50,10 +47,17 @@ public class Employee {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + ", phone="
-				+ phone + "]";
+	public String getRelation() {
+		return relation;
+	}
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+	public Long getPhone() {
+		return phone;
+	}
+	public void setPhone(Long phone) {
+		this.phone = phone;
 	}
 	public String getEmail() {
 		return email;
@@ -61,13 +65,5 @@ public class Employee {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	
 	
 }

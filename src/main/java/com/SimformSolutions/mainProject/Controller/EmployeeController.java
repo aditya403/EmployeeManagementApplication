@@ -2,25 +2,28 @@ package com.SimformSolutions.mainProject.Controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.SimformSolutions.mainProject.EmployeeRepository.EmployeeRepository;
 import com.SimformSolutions.mainProject.Service.EmployeeService;
+import com.SimformSolutions.mainProject.Service.RelativeOfEmployeeService;
 import com.SimformSolutions.mainProject.model.Employee;
 
 @Controller
 public class EmployeeController {
 	
 	@Autowired
-	EmployeeRepository repo;
+	EmployeeService employeeService;
 	
 	@Autowired
-	EmployeeService employeeService;
+	RelativeOfEmployeeService relativeOfEmployeeService;
 	
 	@RequestMapping("/")
 	public String home() {
@@ -40,19 +43,23 @@ public class EmployeeController {
 		return "AddEmployeeForm.jsp";
 	}
 	
-	@PostMapping("/saveEmployee")				//Saves new employee
-	public String saveEmployee(Employee employee) {
-		//if a user does have a id do a update
-		//else do an update
-		if(employee.getId()==0) {
-			//insert a new record 
+	@PostMapping("/saveUpdatedEmployee")				//Saves new employee
+	public String saveUpdatedEmployee(Employee employee) {
+		//do an update
+		employeeService.update(employee);
+		return "redirect:/showEmployee";
+	}
+	
+	@PostMapping("/saveMultipleEmployee")				//Saves new employee
+	public String saveMultipleEmployee(String[] name, String[] email, String[] address, Long[] phone) {
+		Employee employee = new Employee();
+		for(int i=0; i<name.length; i++) {
+			employee.setName(name[i]);
+			employee.setEmail(email[i]);
+			employee.setAddress(address[i]);
+			employee.setPhone(phone[i]);
 			employeeService.saveEmployee(employee);
 		}
-		else {
-			//do an update
-			employeeService.update(employee);
-		}
-		
 		return "redirect:/showEmployee";
 	}
 	
@@ -66,14 +73,12 @@ public class EmployeeController {
 	
 	@RequestMapping("/updateEmployee")			//updates Employee
 	public String updateEmployee(@RequestParam("id") int id, Model model) {
-		System.out.println(id);
-		
 		Employee employeeToBeUpdated = employeeService.getEmployee(id);
 		model.addAttribute("employee", employeeToBeUpdated);
-		return "AddEmployeeForm.jsp";
+		return "UpdateEmployee.jsp";
 	}
 	
-	@RequestMapping("/DeleteEmployee")			//updates Employee
+	@RequestMapping("/DeleteEmployee")			//Delete Employee
 	public String DeleteEmployee(@RequestParam("id") int id) {
 		//capture the id and do a service call
 		employeeService.DeleteEmployee(id);
@@ -81,7 +86,28 @@ public class EmployeeController {
 	}
 	
 	
+	/**
+	 * Employee Relative Logics
+	 */
+
 	
+	@RequestMapping("/AddRelatives")
+	public String AddRelatives(@RequestParam("id") int id, Model model) {
+		model.addAttribute("employeeId",id);
+		System.out.println(id);
+		return "AddRelatives.jsp";
+	}
+	
+	@RequestMapping(path="saveRelatives", method=RequestMethod.POST)				//Saves new employee
+	public String saveRelatives(HttpServletRequest request) {
+//		relativeOfEmployeeService.save(relativeOfEmployee);
+		System.out.println(request.getParameter("txtEmailAddress"));
+		System.out.println(request.getParameter("txtEmailAddress"));
+		System.out.println(request.getParameter("txtEmailAddress"));
+		System.out.println(request.getParameter("txtEmailAddress"));
+		System.out.println(request.getParameter("txtEmailAddress"));
+		return "redirect:/showEmployee";
+	}
 }
 
 
